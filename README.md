@@ -1,11 +1,11 @@
 # Extracting socio-spatial networks from photo-ID data using multilevel multinomial models
 <br>
 
-### **Abstract: **
+### Abstract: 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Photo identification of individuals within a population is a common data source that is becoming more common given technological advances and the use of computer vision and machine learning to re-identify individuals. These data are collected through hand-held cameras, drones, and camera traps, and often come with biases in terms of sampling effort and distribution. In spite of these biases a common goal of collecting these datasets is to better understand the habitat use pattern of individuals and populations. Here, we examine the potential for multilevel multinomial models to generate socio-spatial networks that capture the similarities in individual users across the spatial distribution of a species. We use this approach with 18 years of photo-ID data to better understand population structuring of beluga whales in the St. Lawrence River. We show using permuted and simulated data that this approach can identify community network structures within populations in a way that accounts for biases in collections methods. Applying this method to the entire 18 years dataset for SLE beluga, we found three spatially distinct communities. These results suggest that within the population’s summer range individuals are moving within restricted areas (i.e., home ranges), and have implications for the estimated impacts of localized anthropogenic stressors, such as chemical pollution or acoustic disturbances on animal populations. We conclude that multilevel multinomial models can be effective at estimating socio-spatial networks that describe community structuring within wildlife populations. 
 <br>
  
-### **Code: **
+### Code:
 
  In this paper we used brms to build and run a multilevel multinomial model to create socio-spatial networks. Below is the general formula used:
  
@@ -14,7 +14,7 @@
  Here 'y' is a column vector with the number of times a beluga was seen in each sector of the St. Lawrence Estuary. 'Totsize' is the total number of times that beluga was seen, and 'ID' is the individual beluga ID number. The additional 'p' in the random effects formula (1|p|ID) allows correlations between individual random intercepts (i.e., beluga usage patterns) to be calculated between sectors.
 <br>
  
-### **Visualizations: **
+### Visualizations:
  We can visualize these correlations between beluga usage patterns (i.e., similarities in individual random intercepts) between sectors:
  
  ![](inst/figs/Fig_relative_use_randomEffects.png)
