@@ -103,8 +103,7 @@ summary(fit.int.random.multi)
 
 Plot the results of the dependence between the sectors
 ```{r vis random results}
-library(igraph)
-
+#get the labels for each sector number
 df.sec.numb<-read.csv("data/sec_id_name.csv")
 
 #visualize results as a network
@@ -162,7 +161,7 @@ plot(graph.ranef, edge.width=(abs(E(graph.ranef)$weight)*2), layout=lo, edge.col
 ## 2.2) Partially structured data
 
 Define 4 spatial communities
-```{r}
+```{r define groups}
 #empty list
 spatial_groups <- list()
 
@@ -177,7 +176,7 @@ all_sect <- c(12,15,10,7,8,9,2,11,14,3,13)
 ```
 
 Simulate some data
-```{r}
+```{r sim structured data}
 
 #get data where the sector associcated with a photoID has been randomly permuted
 df.mag.sec <- read.csv("data/photoID_perm.csv")
@@ -192,11 +191,11 @@ split.values<-split(x, cut(x, quantile(x, prob = 0:4 / 4, names = FALSE), includ
 for(i in 1:nrow(df.mag.sec)){
   ran_sec <- 0
   
-  if(df.net$ID[i]<max(split.values[[1]])){
+  if(df.mag.sec$ID[i]<max(split.values[[1]])){
     ran_sec<-ifelse(runif(1)>0.2, sample(spatial_groups[[1]], size=1), sample(all_sect, size =1) )
-  }else if(df.net$ID[i]<max(split.values[[2]])){
+  }else if(df.mag.sec$ID[i]<max(split.values[[2]])){
     ran_sec<-ifelse(runif(1)>0.2, sample(spatial_groups[[2]], size=1), sample(all_sect, size =1) )
-  }else if(df.net$ID[i]<max(split.values[[3]])){
+  }else if(df.mag.sec$ID[i]<max(split.values[[3]])){
     ran_sec<-ifelse(runif(1)>0.2, sample(spatial_groups[[3]], size=1), sample(all_sect, size =1) )
   }else {
     ran_sec<-ifelse(runif(1)>0.2, sample(spatial_groups[[4]], size=1), sample(all_sect, size =1) )
@@ -218,8 +217,7 @@ Get sector values for each NCT
 ```{r sector values}
 
 #for each individual count the number of times seen in each sector
-df.mag.sec <- df.mag.sec %>% mutate(sec_ID = paste0(ran_sec,"_",ID) )
-df.mag.sec.multinom <- df.mag.sec %>% group_by(sec_ID) %>% summarize(y2=sum(sec==2),
+df.mag.sec.multinom <- df.mag.sec %>% group_by(ID) %>% summarize(y2=sum(sec==2),
                                                                      y3=sum(sec==3),
                                                                      y7=sum(sec==7),
                                                                      y8=sum(sec==8),
@@ -260,7 +258,7 @@ bf_cat <- bf(y | trials(totsize) ~ 1 + (1|p|ID))+ multinomial()
 get_prior(bf_cat , data=df.structured.multinom)
 
 #fit the model
-fit.int.structured.multi <- brm(bf_cat, data=df.structured.multinom, cores=4,chains=4, iter=1000, control = list(adapt_delta=0.95),
+fit.int.structured.multi <- brm(bf_cat, data=df.structured.multinom, cores=4,chains=4, iter=1000, backend = "cmdstanr", threads = threading(10), control = list(adapt_delta=0.95),
                                 prior = prior("normal(0,1)", class = "Intercept") +
                                   prior("lkj_corr_cholesky(2)", class="cor") +
                                   prior("student_t(3, 0, 1)", class="sd", dpar="muy2") +
@@ -280,8 +278,9 @@ summary(fit.int.structured.multi)
 
 
 Plot the results of the dependence between the sectors
-```{r}
-library(igraph)
+```{r viz structured results}
+#get the labels for each sector number
+df.sec.numb<-read.csv("data/sec_id_name.csv")
 
 #visualize results as a network
 fit.sum<-summary(fit.int.structured.multi)
