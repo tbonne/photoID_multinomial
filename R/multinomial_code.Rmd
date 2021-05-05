@@ -13,12 +13,8 @@ Introduction:
 ```{r}
 library(rgdal)
 library(ggplot2)
-library(sp)
 library(raster)
-library(spatialEco)
 library(brms)
-library(rgeos)
-library(lubridate)
 library(dplyr)
 ```
 
@@ -127,7 +123,7 @@ colnames(df.vertex)<-c("sec")
 df.join<-left_join(df.vertex,df.sec.numb, by="sec")
 node.label.out <- df.join$Secteur.de.la.position
 
-#library(rgeos)
+#get shapefile of the St.Lawrence
 grid.area<-readOGR("data/shapefile_sectors.shp")
 trueCentroids = gCentroid(grid.area,byid=TRUE, id=grid.area$SECTEUR)
 cent.sec<-as.data.frame(trueCentroids)
