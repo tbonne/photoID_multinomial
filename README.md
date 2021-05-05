@@ -7,7 +7,7 @@
  
 ### Code:
 
- In this paper we used brms to build and run a multilevel multinomial model to create socio-spatial networks. Below is the general formula used:
+ In this paper we used brms to build and run a multilevel multinomial model to create socio-spatial networks. See [this link](https://github.com/tbonne/photoID_multinomial/blob/main/R/multinomial_code.Rmd) for more detailed code, but below is the general formula used:
  
   bf(y | trials(totsize) ~ 1 + (1|p|ID)) + multinomial()
   
