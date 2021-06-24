@@ -11,7 +11,7 @@
  
 ### Code:
 
- In this paper we used brms to build and run a multilevel multinomial model to create socio-spatial networks. See [this link](https://github.com/tbonne/photoID_multinomial/blob/main/R/multinomial_code.Rmd) for more detailed code, but below is the general formula used:
+ In this paper we used brms to build and run a multilevel multinomial model to create population-level spatial networks. See [this link](https://github.com/tbonne/photoID_multinomial/blob/main/R/multinomial_code.Rmd) for more detailed code, but below is the general formula used:
  
   bf(y | trials(totsize) ~ 1 + (1|p|ID)) + multinomial()
   
@@ -26,7 +26,7 @@
  *Figure 1: Estimate of the relative use (i.e., deviation from mean use) for each individual within the SAG (a) and CTE sectors (b) of the St. Lawrence beluga summer habitat. The values are deviations from the mean probability of observing individuals within a sector and are on the logit scale. The red dashed line represents the mean use, black points represent the estimated deviation from the mean, while the horizontal grey lines represent the 95% credible interval. To highlight how correlations are estimated between sectors, the estimated top 10 users of the SAG sector are represented by blue dots (panel a), and those same individuals are also highlighted in blue in the CTE sector (panel b).*
  
  
- We also use these between sector correlations to create a socio-spatial network defining similarity/dissimilarity in beluga usage patterns within the St.Lawrence Estuary:
+ We also use these between sector correlations to create a population spatial network defining similarity/dissimilarity in beluga usage patterns within the St.Lawrence Estuary:
  
  ![](inst/figs/Spatial_comm_net.png)
 
